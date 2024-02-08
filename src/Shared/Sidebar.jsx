@@ -1,6 +1,7 @@
 import { FaHome, FaMastodon, FaPlus, FaTasks } from 'react-icons/fa';
 import { Link, NavLink } from 'react-router-dom';
 
+
 const Sidebar = () => {
     return (
         <div className='space-y-4 py-5 bg-slate-900 border-r border-slate-700 h-full pt-24'>
