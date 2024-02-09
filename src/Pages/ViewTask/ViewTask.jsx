@@ -1,13 +1,14 @@
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import myLocalDB from '../../util/localDB';
-import { FaCalendar, FaClock, FaTrash } from 'react-icons/fa';
+import { FaCalendar, FaClock, FaEdit, FaTrash } from 'react-icons/fa';
 import { FaRightLong } from 'react-icons/fa6';
 import Swal from 'sweetalert2';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTodo, handleStatusTodo, sortTodo } from '../../Redux/features/todoSlice';
 import { ToastContainer, toast } from 'react-toastify';
+import EditTaskModal from '../../Components/Modal/EditTaskModal';
 
 
 const ViewTask = () => {
@@ -15,6 +16,7 @@ const ViewTask = () => {
     const dispatch = useDispatch()
     const { setTaskStatus, deleteTask } = myLocalDB
     const [sortPriority, setSortPriority] = useState(null)
+    const [taskEditActiveId, setTaskEditActiveId] = useState(null)
 
     // sorting
     const sortingFunc = (type, value) => {
@@ -29,7 +31,7 @@ const ViewTask = () => {
     // set task status func
     const setTaskStatusFunc = (taskId, status) => {
 
-        if(status === 'complete'){
+        if (status === 'complete') {
             toast('Task completed!', {
                 position: "bottom-right",
                 autoClose: 1500,
@@ -40,7 +42,7 @@ const ViewTask = () => {
                 progress: undefined,
                 theme: "dark",
             });
-        } else if(status === 'clear'){
+        } else if (status === 'clear') {
             toast('Task clear!', {
                 position: "bottom-right",
                 autoClose: 1500,
@@ -74,6 +76,7 @@ const ViewTask = () => {
             }
         })
     }
+
 
 
     return (
@@ -118,8 +121,9 @@ const ViewTask = () => {
                                     <p>Status: <span className='font-semibold text-white'>{td.status}</span></p>
                                     <p>Priority: <span className={`font-semibold ${isHigh ? 'text-secondaryTwo' : isMedium ? 'text-secondary' : isLow ? 'text-primary' : ''}`}>{td.priority}</span></p>
                                     <p className='text-[11px] sm:text-[text-14px] md:text-[16px] flex flex-wrap gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
-                                    
-                                    {isIncomplete &&<span className='absolute right-2 hover:right-1 hover:text-secondary transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => setTaskStatusFunc(td._id, 'complete')}><FaRightLong></FaRightLong></span>}
+
+                                    <span className='absolute right-14 hover:text-secondary transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => {document.getElementById('my_modal_1').showModal(); setTaskEditActiveId(td._id)}}><FaEdit></FaEdit></span>
+                                    {isIncomplete && <span className='absolute right-2 hover:right-1 hover:text-secondary transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => setTaskStatusFunc(td._id, 'complete')}><FaRightLong></FaRightLong></span>}
                                     <span className='absolute right-8 hover:scale-110 hover:text-secondaryTwo transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
                                 </div>
                             }) : todoList?.map((td, ind) => {
@@ -132,7 +136,8 @@ const ViewTask = () => {
                                     <p>Status: <span className='font-semibold text-white'>{td.status}</span></p>
                                     <p>Priority: <span className={`font-semibold ${isHigh ? 'text-secondaryTwo' : isMedium ? 'text-secondary' : isLow ? 'text-primary' : ''}`}>{td.priority}</span></p>
                                     <p className='text-[11px] sm:text-[text-14px] md:text-[16px] flex flex-wrap gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
-                                    {isIncomplete &&<span className='absolute right-2 hover:right-1 hover:text-secondary transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => setTaskStatusFunc(td._id, 'complete')}><FaRightLong></FaRightLong></span>}e
+                                    <span className='absolute right-14 hover:text-secondary transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => {document.getElementById('my_modal_1').showModal(); setTaskEditActiveId(td._id)}}><FaEdit></FaEdit></span>
+                                    {isIncomplete && <span className='absolute right-2 hover:right-1 hover:text-secondary transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => setTaskStatusFunc(td._id, 'complete')}><FaRightLong></FaRightLong></span>}
                                     <span className='absolute right-8 hover:scale-110 hover:text-secondaryTwo transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
                                 </div>
                             })
@@ -190,7 +195,10 @@ const ViewTask = () => {
                 pauseOnHover
                 theme="dark"
             />
+            {/* Edit task modal */}
+            <EditTaskModal taskEditActiveId={taskEditActiveId}/>
         </div>
+
     );
 };
 

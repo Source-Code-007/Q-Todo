@@ -19,6 +19,16 @@ export const todoSlice = createSlice({
             const updateTodoStatus = state.todo.find(td => td._id === action.payload?._id)
             updateTodoStatus.status = action.payload?.status
         },
+        updateTodo: (state, action) => {
+            state.todo = state.todo.map(td=> {
+                if(td?._id === action.payload?._id){
+                    return {
+                        ...td, ...action.payload
+                    }
+                }
+                return td
+            })
+        },
         sortTodo: (state, action) => {
             // For ascending or descending
             const {type, value} =action.payload
@@ -38,6 +48,6 @@ export const todoSlice = createSlice({
 })
 
 
-export const { insertTodo, handleStatusTodo, sortTodo, deleteTodo } = todoSlice.actions
+export const { insertTodo, handleStatusTodo, updateTodo, sortTodo, deleteTodo } = todoSlice.actions
 
 export default todoSlice.reducer
