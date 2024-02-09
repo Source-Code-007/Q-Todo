@@ -16,7 +16,7 @@ export const todoSlice = createSlice({
             state.todo.push(action.payload)
         }),
         handleStatusTodo: (state, action) => {
-            const updateTodoStatus = state.value.find(td => td._id === action.payload?._id)
+            const updateTodoStatus = state.todo.find(td => td._id === action.payload?._id)
             updateTodoStatus.status = action.payload?.status
         },
         sortTodo: (state, action) => {

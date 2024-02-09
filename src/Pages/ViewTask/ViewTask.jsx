@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { deleteTodo, handleStatusTodo, sortTodo } from '../../Redux/features/todoSlice';
+import { ToastContainer, toast } from 'react-toastify';
 
 
 const ViewTask = () => {
@@ -27,6 +28,31 @@ const ViewTask = () => {
 
     // set task status func
     const setTaskStatusFunc = (taskId, status) => {
+
+        if(status === 'completed'){
+            toast('Task completed!', {
+                position: "bottom-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        } else if(status === 'clear'){
+            toast('Task clear!', {
+                position: "bottom-right",
+                autoClose: 1500,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+            });
+        }
+
         setTaskStatus(taskId, status)
         dispatch(handleStatusTodo({ _id: taskId, status }))
     }
@@ -53,11 +79,11 @@ const ViewTask = () => {
 
     return (
         <div className='min-h-screen pt-12 bg-slate-900'>
-            <div className='w-3/6 mx-auto bg-slate-400 bg-opacity-20 p-4 space-y-5 rounded'>
+            <div className='w-full md:w-5/6 mx-6 md:mx-auto bg-slate-400 bg-opacity-20 p-4 space-y-5 rounded'>
 
                 {/* sorting btn */}
                 <div className='flex flex-col gap-1 items-end'>
-                    <h2 className='font-bold text-xl'>Sort</h2>
+                    <h2 className='font-bold text-xl'>Sorting</h2>
                     <div className='flex gap-2 w-3/6'>
                         <select className="select my-inp" id='sort-priority' onChange={(e) => sortingFunc('priority', e.target.value)} defaultValue={''}>
                             <option value={''}>Priority</option>
@@ -75,8 +101,7 @@ const ViewTask = () => {
                 <Tabs className='w-full p-4 max-h-[500px] overflow-y-scroll view-task-scrollbar'>
                     <TabList className='flex gap-2 mb-4'>
                         <Tab className={'border border-slate-200 bg-slate-100 p-2 cursor-pointer text-black font-semibold'}>All</Tab>
-                        <Tab className={'border border-slate-200 bg-slate-100 p-2 cursor-pointer text-black font-semibold'}>Pending</Tab>
-                        <Tab className={'border border-slate-200 bg-slate-100 p-2 cursor-pointer text-black font-semibold'}>In Progress</Tab>
+                        <Tab className={'border border-slate-200 bg-slate-100 p-2 cursor-pointer text-black font-semibold'}>Incomplete</Tab>
                         <Tab className={'border border-slate-200 bg-slate-100 p-2 cursor-pointer text-black font-semibold'}>Completed</Tab>
                         <Tab className={'border border-slate-200 bg-slate-100 p-2 cursor-pointer text-black font-semibold'}>Clear Completed</Tab>
                     </TabList>
@@ -88,7 +113,7 @@ const ViewTask = () => {
                                 const isLow = td?.priority === 'Low'
                                 const isMedium = td?.priority === 'Medium'
                                 const isHigh = td?.priority === 'High'
-                                return <div key={ind} className={`rounded p-3 my-2 text-slate-200 bg-slate-900 bg-opacity-40 relative`}>
+                                return <div key={ind} className={`rounded p-3 my-2 text-slate-200 bg-slate-900 bg-opacity-40 relative border border-opacity-50 ${isHigh ? 'border-secondaryTwo' : isMedium ? 'border-secondary' : isLow ? 'border-primary' : ''}`}>
                                     <h2 className='text-slate-50 font-bold text-xl'>{td.title}</h2>
                                     <p>Status: <span className='font-semibold text-white'>{td.status}</span></p>
                                     <p>Priority: <span className={`font-semibold ${isHigh ? 'text-secondaryTwo' : isMedium ? 'text-secondary' : isLow ? 'text-primary' : ''}`}>{td.priority}</span></p>
@@ -99,7 +124,7 @@ const ViewTask = () => {
                                 const isLow = td?.priority === 'Low'
                                 const isMedium = td?.priority === 'Medium'
                                 const isHigh = td?.priority === 'High'
-                                return <div key={ind} className={`rounded p-3 my-2 text-slate-200 bg-slate-900 bg-opacity-40 relative`}>
+                                return <div key={ind} className={`rounded p-3 my-2 text-slate-200 bg-slate-900 bg-opacity-40 relative border border-opacity-50 ${isHigh ? 'border-secondaryTwo' : isMedium ? 'border-secondary' : isLow ? 'border-primary' : ''}`}>
                                     <h2 className='text-slate-50 font-bold text-xl'>{td.title}</h2>
                                     <p>Status: <span className='font-semibold text-white'>{td.status}</span></p>
                                     <p>Priority: <span className={`font-semibold ${isHigh ? 'text-secondaryTwo' : isMedium ? 'text-secondary' : isLow ? 'text-primary' : ''}`}>{td.priority}</span></p>
@@ -109,27 +134,14 @@ const ViewTask = () => {
                             })
                         }
                     </TabPanel>
-                    {/* Pending */}
+                    {/* Incomplete */}
                     <TabPanel>
                         {
-                            todoList?.filter(tf => tf.status === 'pending').length === 0 ? <div className='min-h-[50vh] flex items-center justify-center'><span className='bg-secondaryTwo p-2 rounded text-white font-bold text-xl'>No task here!</span></div> : todoList?.filter(tf => tf.status === 'pending')?.map((td, ind) => {
-                                return <div key={ind} className='p-3 rounded my-2 text-slate-200 bg-slate-900 bg-opacity-50 relative'>
+                            todoList?.filter(tf => tf.status === 'incomplete').length === 0 ? <div className='min-h-[50vh] flex items-center justify-center'><span className='bg-secondaryTwo p-2 rounded text-white font-bold text-xl'>No task here!</span></div> : todoList?.filter(tf => tf.status === 'incomplete')?.map((td, ind) => {
+                                return <div key={ind} className='p-3 rounded my-2 text-slate-200  relative bg-secondaryTwo'>
                                     <h2 className='text-slate-50 font-bold text-xl'>{td.title}</h2>
                                     <p className='flex gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
-                                    <span className='absolute right-2 hover:right-1 transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => setTaskStatusFunc(td._id, 'in progress')}><FaRightLong></FaRightLong></span>
-                                    <span className='absolute right-8 hover:scale-110 hover:text-secondaryTwo transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
-                                </div>
-                            })
-                        }
-                    </TabPanel>
-                    {/* In progress */}
-                    <TabPanel>
-                        {
-                            todoList?.filter(tf => tf.status === 'in progress').length === 0 ? <div className='min-h-[50vh] flex items-center justify-center'><span className='bg-secondaryTwo p-2 rounded text-white font-bold text-xl'>No task here!</span></div> : todoList?.filter(tf => tf.status === 'in progress')?.map((td, ind) => {
-                                return <div key={ind} className='p-3 rounded my-2 text-slate-200 bg-slate-900 bg-opacity-50 relative'>
-                                    <h2 className='text-slate-50 font-bold text-xl'>{td.title}</h2>
-                                    <p className='flex gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
-                                    <span className='absolute right-2 hover:right-1 transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => setTaskStatusFunc(td._id, 'complete')}><FaRightLong></FaRightLong></span>
+                                    <span className='absolute right-2 hover:right-1 hover:text-secondary transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => setTaskStatusFunc(td._id, 'complete')}><FaRightLong></FaRightLong></span>
                                     <span className='absolute right-8 hover:scale-110 hover:text-secondaryTwo transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
                                 </div>
                             })
@@ -139,10 +151,10 @@ const ViewTask = () => {
                     <TabPanel>
                         {
                             todoList?.filter(tf => tf.status === 'complete').length === 0 ? <div className='min-h-[50vh] flex items-center justify-center'><span className='bg-secondaryTwo p-2 rounded text-white font-bold text-xl'>No task here!</span></div> : todoList?.filter(tf => tf.status === 'complete')?.map((td, ind) => {
-                                return <div key={ind} className='p-3 rounded my-2 text-slate-200 bg-slate-900 bg-opacity-50 relative'>
+                                return <div key={ind} className='p-3 rounded my-2 text-slate-200 bg-secondary relative'>
                                     <h2 className='text-slate-50 font-bold text-xl'>{td.title}</h2>
                                     <p className='flex gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
-                                    <span className='absolute right-2 hover:right-1 transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => setTaskStatusFunc(td._id, 'clear')}><FaRightLong></FaRightLong></span>
+                                    <span className='absolute right-2 hover:right-1 hover:text-primary transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => setTaskStatusFunc(td._id, 'clear')}><FaRightLong></FaRightLong></span>
                                     <span className='absolute right-8 hover:scale-110 hover:text-secondaryTwo transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
                                 </div>
                             })
@@ -152,7 +164,7 @@ const ViewTask = () => {
                     <TabPanel>
                         {
                             todoList?.filter(tf => tf.status === 'clear').length === 0 ? <div className='min-h-[50vh] flex items-center justify-center'><span className='bg-secondaryTwo p-2 rounded text-white font-bold text-xl'>No task here!</span></div> : todoList?.filter(tf => tf.status === 'clear')?.map((td, ind) => {
-                                return <div key={ind} className='p-3 rounded my-2 text-slate-100 bg-red-300 bg-opacity-50 relative'>
+                                return <div key={ind} className='p-3 rounded my-2 text-slate-100 bg-secondaryTwo relative'>
                                     <h2 className='text-slate-50 font-bold text-xl'>{td.title}</h2>
                                     <p className='flex gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
                                     <span className='absolute right-8 hover:scale-110 hover:text-secondaryTwo transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
@@ -162,7 +174,18 @@ const ViewTask = () => {
                     </TabPanel>
                 </Tabs>
             </div>
-
+            <ToastContainer
+                position="bottom-right"
+                autoClose={1500}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
         </div>
     );
 };
