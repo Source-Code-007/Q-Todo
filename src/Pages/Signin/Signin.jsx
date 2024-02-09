@@ -116,7 +116,7 @@ const Signin = () => {
       style={{ backgroundImage: `url(${bgImg})` }}
     >
       <div className="min-h-screen grid grid-col-1 md:grid-cols-2 gap-4 xl:gap-8 items-center my-container">
-        <div className="p-5 lg:p-10 bg-purple-500 bg-opacity-25 shadow rounded">
+        <div className="p-5 lg:p-10 bg-primary bg-opacity-25 shadow rounded">
           <form onSubmit={handleSubmit(handleSigninFunc)} className="space-y-3">
             <h2 className="font-bold text-3xl text-white mb-6">
               Signin to your account

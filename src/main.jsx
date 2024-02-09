@@ -6,6 +6,8 @@ import LayoutOne from './Layout/LayoutOne.jsx'
 import AddTask from './Pages/AddTask/AddTask.jsx'
 import { Provider } from 'react-redux'
 import { store } from './Redux/store.jsx'
+import Homepage from './Pages/Homepage/Homepage.jsx'
+import ViewTask from './Pages/ViewTask/ViewTask.jsx'
 
 const router = createBrowserRouter([
   {
@@ -15,11 +17,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <h2>hey</h2>
+        element: <Homepage/>
       },
       {
         path: '/add-task',
         element: <AddTask />
+      },
+      {
+        path: '/view-task',
+        element: <ViewTask />
       }
     ]
   }

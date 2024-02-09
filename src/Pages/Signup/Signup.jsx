@@ -124,7 +124,7 @@ const Signup = () => {
       <div className="min-h-screen grid grid-col-1 md:grid-cols-2 gap-4 xl:gap-8 items-center my-container">
         <form
           onSubmit={handleSubmit(handleSignupFunc)}
-          className="space-y-3 p-5 lg:p-10 bg-purple-500 bg-opacity-25 shadow rounded"
+          className="space-y-3 p-5 lg:p-10 bg-primary bg-opacity-25 shadow rounded"
         >
           <h2 className="font-bold text-3xl text-white">Please Register</h2>
 

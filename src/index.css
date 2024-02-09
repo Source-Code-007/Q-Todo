@@ -55,21 +55,21 @@ body::-webkit-scrollbar-thumb {
   }
 
   .my-btn-one{
-	@apply rounded inline-block bg-emerald-500 px-3 py-2 hover:animate-pulse font-semibold text-slate-50
+	@apply rounded inline-block bg-secondary px-3 py-2 hover:animate-pulse font-semibold text-slate-50
   }
   .my-btn-one-outline{
-	@apply rounded inline-block border-2 border-emerald-500 text-emerald-500 bg-white hover:bg-emerald-500 hover:text-white transition px-3 py-2 hover:animate-pulse font-semibold
+	@apply rounded inline-block border-2 border-secondary text-secondary bg-white hover:bg-secondary hover:text-white transition px-3 py-2 hover:animate-pulse font-semibold
   }
 
 
 /* View task */
 .react-tabs__tab--selected{
-    @apply !bg-purple-500 !text-white !border !border-transparent !outline-none !rounded-sm
+    @apply !bg-primary !text-white !border !border-transparent !outline-none !rounded-sm
 }
 
 .view-task-scrollbar {
     --sb-track-color: #0f172a;
-    --sb-thumb-color: #a855f7;
+    --sb-thumb-color: #5c6ac4;
     --sb-size: 8px;
   
     scrollbar-color: var(--sb-thumb-color) 
