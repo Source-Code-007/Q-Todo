@@ -196,7 +196,7 @@ const ViewTask = () => {
                 theme="dark"
             />
             {/* Edit task modal */}
-            <EditTaskModal taskEditActiveId={taskEditActiveId}/>
+          <EditTaskModal taskEditActiveId={taskEditActiveId}/>
         </div>
 
     );

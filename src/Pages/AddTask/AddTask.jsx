@@ -16,8 +16,8 @@ const AddTask = () => {
     const { register, handleSubmit, watch, reset, formState: { errors } } = useForm();
     const onSubmit = form => {
         // setInsertTaskLoading(true)
-        const { title, dateTime, priority } = form
-        const task = { _id: uuidv4(), title, deadline: dateTime, status: 'incomplete', priority }
+        const { title, dateTime, description, priority } = form
+        const task = { _id: uuidv4(), title, deadline: dateTime, description, status: 'incomplete', priority }
 
 
         // insert task to local state by redux
