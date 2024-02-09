@@ -41,17 +41,17 @@ const AddTask = () => {
 
 
     return (
-        <div className='min-h-screen pt-12 bg-slate-900'>
-            <div className='w-3/6 mx-auto bg-slate-400 bg-opacity-20 p-4 space-y-5 rounded'>
+        <div className='min-h-screen pt-12 bg-slate-900 px-4 md:px-0'>
+            <div className='w-full md:w-5/6 mx-auto md:mx-auto bg-slate-400 bg-opacity-20 p-4 space-y-5 rounded'>
                 <div>
-                    <h2 className='font-bold text-3xl text-white'>My TODO!</h2>
+                    <h2 className='font-bold text-3xl text-white'>Q Todo!</h2>
                     <h2 className='font-semibold text-lg text-slate-300'>Create a list of task.</h2>
                 </div>
                 <form onSubmit={handleSubmit(onSubmit)} className='w-full space-y-4 text-slate-700'>
 
                     {/* Tasks title */}
                     <div>
-                        <label className='text-white' htmlFor="taskTitle">Tasks title</label>
+                        <label className='text-white' htmlFor="taskTitle">Task title</label>
                         <input type="text" id='taskTitle' placeholder="Your task title here" className="my-inp" {...register("title", { required: true })} />
                         {errors.title && <span className='text-secondaryTwo block font-semibold'>*Task is required!</span>}
                     </div>

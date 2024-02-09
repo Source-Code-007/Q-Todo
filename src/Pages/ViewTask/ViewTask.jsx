@@ -29,7 +29,7 @@ const ViewTask = () => {
     // set task status func
     const setTaskStatusFunc = (taskId, status) => {
 
-        if(status === 'completed'){
+        if(status === 'complete'){
             toast('Task completed!', {
                 position: "bottom-right",
                 autoClose: 1500,
@@ -75,16 +75,15 @@ const ViewTask = () => {
         })
     }
 
-    console.log(todoList, 'todoList');
 
     return (
-        <div className='min-h-screen pt-12 bg-slate-900'>
-            <div className='w-full md:w-5/6 mx-6 md:mx-auto bg-slate-400 bg-opacity-20 p-4 space-y-5 rounded'>
+        <div className='min-h-screen pt-12 bg-slate-900 px-4 md:px-0'>
+            <div className='w-full md:w-5/6 mx-auto md:mx-auto bg-slate-400 bg-opacity-20 p-1 md:p-4 space-y-5 rounded'>
 
                 {/* sorting btn */}
-                <div className='flex flex-col gap-1 items-end'>
+                <div className='flex flex-col flex-wrap gap-1 items-end'>
                     <h2 className='font-bold text-xl'>Sorting</h2>
-                    <div className='flex gap-2 w-3/6'>
+                    <div className='flex gap-2 w-full md:w-3/6'>
                         <select className="select my-inp" id='sort-priority' onChange={(e) => sortingFunc('priority', e.target.value)} defaultValue={''}>
                             <option value={''}>Priority</option>
                             <option value={'Low'}>Low</option>
@@ -98,8 +97,8 @@ const ViewTask = () => {
                         </select>
                     </div>
                 </div>
-                <Tabs className='w-full p-4 max-h-[500px] overflow-y-scroll view-task-scrollbar'>
-                    <TabList className='flex gap-2 mb-4'>
+                <Tabs className='w-full p-4 max-h-[700px] overflow-y-scroll view-task-scrollbar'>
+                    <TabList className='flex flex-wrap gap-2 mb-4'>
                         <Tab className={'border border-slate-200 bg-slate-100 p-2 cursor-pointer text-black font-semibold'}>All</Tab>
                         <Tab className={'border border-slate-200 bg-slate-100 p-2 cursor-pointer text-black font-semibold'}>Incomplete</Tab>
                         <Tab className={'border border-slate-200 bg-slate-100 p-2 cursor-pointer text-black font-semibold'}>Completed</Tab>
@@ -113,23 +112,28 @@ const ViewTask = () => {
                                 const isLow = td?.priority === 'Low'
                                 const isMedium = td?.priority === 'Medium'
                                 const isHigh = td?.priority === 'High'
+                                const isIncomplete = td?.status === 'incomplete'
                                 return <div key={ind} className={`rounded p-3 my-2 text-slate-200 bg-slate-900 bg-opacity-40 relative border border-opacity-50 ${isHigh ? 'border-secondaryTwo' : isMedium ? 'border-secondary' : isLow ? 'border-primary' : ''}`}>
                                     <h2 className='text-slate-50 font-bold text-xl'>{td.title}</h2>
                                     <p>Status: <span className='font-semibold text-white'>{td.status}</span></p>
                                     <p>Priority: <span className={`font-semibold ${isHigh ? 'text-secondaryTwo' : isMedium ? 'text-secondary' : isLow ? 'text-primary' : ''}`}>{td.priority}</span></p>
-                                    <p className='flex gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
-                                    <span className='absolute right-3 hover:scale-110 hover:text-secondaryTwo transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
+                                    <p className='text-[11px] sm:text-[text-14px] md:text-[16px] flex flex-wrap gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
+                                    
+                                    {isIncomplete &&<span className='absolute right-2 hover:right-1 hover:text-secondary transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => setTaskStatusFunc(td._id, 'complete')}><FaRightLong></FaRightLong></span>}
+                                    <span className='absolute right-8 hover:scale-110 hover:text-secondaryTwo transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
                                 </div>
                             }) : todoList?.map((td, ind) => {
                                 const isLow = td?.priority === 'Low'
                                 const isMedium = td?.priority === 'Medium'
                                 const isHigh = td?.priority === 'High'
+                                const isIncomplete = td?.status === 'incomplete'
                                 return <div key={ind} className={`rounded p-3 my-2 text-slate-200 bg-slate-900 bg-opacity-40 relative border border-opacity-50 ${isHigh ? 'border-secondaryTwo' : isMedium ? 'border-secondary' : isLow ? 'border-primary' : ''}`}>
                                     <h2 className='text-slate-50 font-bold text-xl'>{td.title}</h2>
                                     <p>Status: <span className='font-semibold text-white'>{td.status}</span></p>
                                     <p>Priority: <span className={`font-semibold ${isHigh ? 'text-secondaryTwo' : isMedium ? 'text-secondary' : isLow ? 'text-primary' : ''}`}>{td.priority}</span></p>
-                                    <p className='flex gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
-                                    <span className='absolute right-3 hover:scale-110 hover:text-secondaryTwo transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
+                                    <p className='text-[11px] sm:text-[text-14px] md:text-[16px] flex flex-wrap gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
+                                    {isIncomplete &&<span className='absolute right-2 hover:right-1 hover:text-secondary transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => setTaskStatusFunc(td._id, 'complete')}><FaRightLong></FaRightLong></span>}e
+                                    <span className='absolute right-8 hover:scale-110 hover:text-secondaryTwo transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
                                 </div>
                             })
                         }
@@ -140,9 +144,9 @@ const ViewTask = () => {
                             todoList?.filter(tf => tf.status === 'incomplete').length === 0 ? <div className='min-h-[50vh] flex items-center justify-center'><span className='bg-secondaryTwo p-2 rounded text-white font-bold text-xl'>No task here!</span></div> : todoList?.filter(tf => tf.status === 'incomplete')?.map((td, ind) => {
                                 return <div key={ind} className='p-3 rounded my-2 text-slate-200  relative bg-secondaryTwo'>
                                     <h2 className='text-slate-50 font-bold text-xl'>{td.title}</h2>
-                                    <p className='flex gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
+                                    <p className='text-[11px] sm:text-[text-14px] md:text-[16px] flex flex-wrap gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
                                     <span className='absolute right-2 hover:right-1 hover:text-secondary transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => setTaskStatusFunc(td._id, 'complete')}><FaRightLong></FaRightLong></span>
-                                    <span className='absolute right-8 hover:scale-110 hover:text-secondaryTwo transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
+                                    <span className='absolute right-8 hover:scale-110 transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
                                 </div>
                             })
                         }
@@ -153,7 +157,7 @@ const ViewTask = () => {
                             todoList?.filter(tf => tf.status === 'complete').length === 0 ? <div className='min-h-[50vh] flex items-center justify-center'><span className='bg-secondaryTwo p-2 rounded text-white font-bold text-xl'>No task here!</span></div> : todoList?.filter(tf => tf.status === 'complete')?.map((td, ind) => {
                                 return <div key={ind} className='p-3 rounded my-2 text-slate-200 bg-secondary relative'>
                                     <h2 className='text-slate-50 font-bold text-xl'>{td.title}</h2>
-                                    <p className='flex gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
+                                    <p className='text-[11px] sm:text-[text-14px] md:text-[16px] flex flex-wrap gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
                                     <span className='absolute right-2 hover:right-1 hover:text-primary transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => setTaskStatusFunc(td._id, 'clear')}><FaRightLong></FaRightLong></span>
                                     <span className='absolute right-8 hover:scale-110 hover:text-secondaryTwo transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
                                 </div>
@@ -166,8 +170,8 @@ const ViewTask = () => {
                             todoList?.filter(tf => tf.status === 'clear').length === 0 ? <div className='min-h-[50vh] flex items-center justify-center'><span className='bg-secondaryTwo p-2 rounded text-white font-bold text-xl'>No task here!</span></div> : todoList?.filter(tf => tf.status === 'clear')?.map((td, ind) => {
                                 return <div key={ind} className='p-3 rounded my-2 text-slate-100 bg-secondaryTwo relative'>
                                     <h2 className='text-slate-50 font-bold text-xl'>{td.title}</h2>
-                                    <p className='flex gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
-                                    <span className='absolute right-8 hover:scale-110 hover:text-secondaryTwo transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
+                                    <p className='text-[11px] sm:text-[text-14px] md:text-[16px] flex flex-wrap gap-2 items-center'>Deadline: <span className='flex gap-1 items-center'><FaCalendar></FaCalendar> {td.deadline?.split('T')[0]}</span> <span className='flex gap-1 items-center'><FaClock></FaClock>{td.deadline?.split('T')[1]}</span></p>
+                                    <span className='absolute right-8 hover:scale-110  transition-all duration-500 cursor-pointer top-1/2 -translate-y-1/2' onClick={() => deleteTaskFunc(td._id)}><FaTrash></FaTrash></span>
                                 </div>
                             })
                         }

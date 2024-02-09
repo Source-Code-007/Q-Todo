@@ -41,22 +41,22 @@ const Homepage = () => {
                             <span><CgGoogleTasks /></span>
                         </div>
                         <div className='bg-secondary py-4 px-2 flex justify-between rounded-b-sm'>
-                            <span className='font-semibold'>{Math.round((completedTodoList?.length/todoList?.length) * 100)}% completed</span>
+                            <span className='font-semibold'>{Math.round((completedTodoList?.length/todoList?.length) * 100) || 0}% completed</span>
                             <span><FaChartLine /></span>
                         </div>
                     </div>
-                    {/* Pending tasks */}
+                    {/* Incomplete tasks */}
                     <div className='bg-neutral flex flex-col justify-between rounded-sm'>
 
                         <div className='py-10 px-5 flex items-center justify-between gap-5'>
                             <div>
                                 <h2 className='font-semibold md:font-bold text-xl md:text-2xl text-secondaryTwo'>{pendingTodoList?.length}</h2>
-                                <p>Total pending tasks</p>
+                                <p>Total incomplete tasks</p>
                             </div>
                             <span><MdOutlinePendingActions /></span>
                         </div>
                         <div className='bg-secondaryTwo py-4 px-2 flex justify-between rounded-b-sm'>
-                            <span className='font-semibold'>{Math.round((pendingTodoList?.length/todoList?.length) * 100)}% pending</span>
+                            <span className='font-semibold'>{Math.round((pendingTodoList?.length/todoList?.length) * 100) || 0}% incomplete</span>
                             <span><FaChartLine /></span>
                         </div>
                     </div>

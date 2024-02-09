@@ -29,7 +29,6 @@ const deleteTask = (taskId) => {
 // getMyTask
 const getTasks = () => {
     const tasksCollection = JSON.parse(localStorage.getItem('tasksCollection'))
-    console.log(tasksCollection, '32');
     return tasksCollection
 }
 
