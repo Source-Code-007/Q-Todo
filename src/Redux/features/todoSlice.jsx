@@ -3,8 +3,9 @@ import myLocalDB from "../../util/localDB";
 
 
 const { getTasks } = myLocalDB
+const myTasks = getTasks()
 const initialState = {
-    todo: getTasks?.length > 0 ? getTasks : []
+    todo: myTasks?.length > 0 ? myTasks : []
 }
 
 export const todoSlice = createSlice({
@@ -12,7 +13,7 @@ export const todoSlice = createSlice({
     initialState,
     reducers: {
         insertTodo: ((state, action) => {
-            state.todo = action.payload
+            state.todo.push(action.payload)
         }),
         handleStatusTodo: (state, action) => {
             const updateTodoStatus = state.value.find(td => td._id === action.payload?._id)
